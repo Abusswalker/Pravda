@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="jumbotron" style="background-image: url('static/img/orig.png');
+    background-size: cover;
+    height: 510px;">
+  <h1 class="display-4">Привет, Лицеисту!</h1>
+  <p class="lead">Вы попали на мой итоговый проект. Надеюсь вам понравится ;)</p>
+</div>
+
+<h1>Последние новости</h1>
+<div class="card-deck">
+    {% for item in articles %}
+        <div class="card h-100" style="width: 18rem;">
+          <img src="/static/img/{{item.image}}" class="card-img-top" alt="...">
+          <div class="card-body">
+              <h5 class="card-title">{{item.title}}</h5>
+              <p class="card-text">{{item.heading}}</p>
+              {% if item.category == 1 %}
+                    <a href="/games/{{item.id}}" class="btn btn-primary">Переход куда-нибудь</a>
+              {% elif item.category == 2 %}
+                    <a href="/movies/{{item.id}}" class="btn btn-success">Переход куда-нибудь</a>
+              {% elif item.category == 3 %}
+                    <a href="/series/{{item.id}}" class="btn btn-warning">Переход куда-нибудь</a>
+              {% elif item.category == 4 %}
+                    <a href="/books/{{item.id}}" class="btn btn-danger">Переход куда-нибудь</a>
+              {%endif%}
+          </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

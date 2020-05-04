@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<img src="/static/img/{{article.image}}">
+<h1>{{article.title}}</h1>
+<p>{{article.content}}</p>
+<p>{{creator.username}}</p>
+
+{% endblock %}

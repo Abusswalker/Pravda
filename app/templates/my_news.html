@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<meta charset="UTF-8">
+<a href="/create_news" class="btn btn-secondary">Создать новость</a>
+
+{% for item in articles %}
+
+    <h2>Новость {{item.id}}</h2>
+    <div class="table_container">
+        <table class="my_table">
+            <tr class="my_row">
+                <td class="title" width="400px" bgcolor="#dddddd">Название новости</td>
+                <td class="title" width="150px" bgcolor="#dddddd">Категория</td>
+            </tr>
+            <tr class="my_row">
+                <td class="ordinary" bgcolor="#eeeeff">{{item.title}}</td>
+                {% if item.category == 1 %}
+                    <td class="ordinary" bgcolor="#eeeeff">Games</td>
+                {% elif item.category == 2 %}
+                    <td class="ordinary" bgcolor="#eeeeff">Movies</td>
+                {% elif item.category == 3 %}
+                    <td class="ordinary" bgcolor="#eeeeff">Series</td>
+                {% elif item.category == 4 %}
+                    <td class="ordinary" bgcolor="#eeeeff">Books</td>
+                {%endif%}
+            </tr>
+        </table>
+        <div>
+            <a href="/news_edit/{{ item.id }}" class="btn btn-warning">Изменить</a>
+            <a href="/news_delete/{{ item.id }}" class="btn btn-danger">Удалить</a>
+        </div>
+    </div>
+
+{% endfor %}
+
+{% endblock %}
