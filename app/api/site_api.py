@@ -63,14 +63,14 @@ def get_users():
 
 
 @bp.route('/articles/<int:article_id>', methods=['GET'])
-def get(article_id):
+def get_article(article_id):
     abort_if_article_not_found(article_id)
     article = db.session.query(Articles).get(article_id)
     return jsonify({'article': article.to_dict(only=('creator', 'title', 'heading', 'content', "category"))})
 
 
 @bp.route('/articles/<int:article_id>', methods=['DELETE'])
-def delete(article_id):
+def delete_article(article_id):
     abort_if_article_not_found(article_id)
     article = db.session.query(Articles).get(article_id)
     db.session.delete(article)
@@ -79,7 +79,7 @@ def delete(article_id):
 
 
 @bp.route('/articles', methods=['GET'])
-def post():
+def post_article():
     args = parser_article.parse_args()
     article = Articles(
         creator=args['creator'],
@@ -93,7 +93,7 @@ def post():
 
 
 @bp.route('/articles', methods=['GET'])
-def get():
+def get_articles():
     article = db.session.query(Articles).all()
     return jsonify(
         {'articles': [item.to_dict(only=('creator', 'title', 'heading', 'content', "category")) for item in
