@@ -6,6 +6,7 @@ from app.api import bp
 from app.models import User, Articles
 from app.api.reqparse_user import parser_user
 from app.api.reqparse_articles import parser_article
+from app.api.auth import token_auth
 
 
 def abort_if_user_not_found(user_id):
@@ -25,6 +26,7 @@ def set_password(password):
 
 
 @bp.route('/users/<int:user_id>', methods=['GET'])
+@token_auth.login_required
 def get_user(user_id):
     abort_if_user_not_found(user_id)
     users = db.session.query(User).get(user_id)
@@ -32,6 +34,7 @@ def get_user(user_id):
 
 
 @bp.route('/users/<int:user_id>', methods=['DELETE'])
+@token_auth.login_required
 def delete_user(user_id):
     abort_if_user_not_found(user_id)
     user = db.session.query(User).get(user_id)
@@ -41,6 +44,7 @@ def delete_user(user_id):
 
 
 @bp.route('/users', methods=['GET'])
+@token_auth.login_required
 def post_user():
     args = parser_user.parse_args()
     user = User(
@@ -55,6 +59,7 @@ def post_user():
 
 
 @bp.route('/users', methods=['GET'])
+@token_auth.login_required
 def get_users():
     users = db.session.query(User).all()
     return jsonify(
@@ -63,6 +68,7 @@ def get_users():
 
 
 @bp.route('/articles/<int:article_id>', methods=['GET'])
+@token_auth.login_required
 def get_article(article_id):
     abort_if_article_not_found(article_id)
     article = db.session.query(Articles).get(article_id)
@@ -70,6 +76,7 @@ def get_article(article_id):
 
 
 @bp.route('/articles/<int:article_id>', methods=['DELETE'])
+@token_auth.login_required
 def delete_article(article_id):
     abort_if_article_not_found(article_id)
     article = db.session.query(Articles).get(article_id)
@@ -79,6 +86,7 @@ def delete_article(article_id):
 
 
 @bp.route('/articles', methods=['GET'])
+@token_auth.login_required
 def post_article():
     args = parser_article.parse_args()
     article = Articles(
@@ -93,6 +101,7 @@ def post_article():
 
 
 @bp.route('/articles', methods=['GET'])
+@token_auth.login_required
 def get_articles():
     article = db.session.query(Articles).all()
     return jsonify(
