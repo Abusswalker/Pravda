@@ -29,3 +29,8 @@ class MyProfile(FlaskForm):
 class GetPrivelegy(FlaskForm):
     text = StringField('Секретный код', validators=[DataRequired()])
     submit = SubmitField('Подтвердить')
+
+
+class CommentsCreateForm(FlaskForm):
+    text = StringField('Введите коментарий', validators=[DataRequired()])
+    submit = SubmitField('Отправить')

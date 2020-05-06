@@ -25,6 +25,7 @@ def set_password(password):
     return generate_password_hash(password)
 
 
+# Api для пользователей
 @bp.route('/users/<int:user_id>', methods=['GET'])
 @token_auth.login_required
 def get_user(user_id):
@@ -66,7 +67,7 @@ def get_users():
         {'users': [item.to_dict(only=('username', 'position', 'email', 'hashed_password')) for item in users]})
 
 
-
+# API для новостей
 @bp.route('/articles/<int:article_id>', methods=['GET'])
 @token_auth.login_required
 def get_article(article_id):

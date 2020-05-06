@@ -18,13 +18,13 @@
               <h5 class="card-title">{{item.title}}</h5>
               <p class="card-text">{{item.heading}}</p>
               {% if item.category == 1 %}
-                    <a href="/games/{{item.id}}" class="btn btn-primary">Переход куда-нибудь</a>
+                    <a href="/article/{{item.id}}" class="btn btn-primary">Переход куда-нибудь</a>
               {% elif item.category == 2 %}
-                    <a href="/movies/{{item.id}}" class="btn btn-success">Переход куда-нибудь</a>
+                    <a href="/article/{{item.id}}" class="btn btn-success">Переход куда-нибудь</a>
               {% elif item.category == 3 %}
-                    <a href="/series/{{item.id}}" class="btn btn-warning">Переход куда-нибудь</a>
+                    <a href="/article/{{item.id}}" class="btn btn-warning">Переход куда-нибудь</a>
               {% elif item.category == 4 %}
-                    <a href="/books/{{item.id}}" class="btn btn-danger">Переход куда-нибудь</a>
+                    <a href="/article/{{item.id}}" class="btn btn-danger">Переход куда-нибудь</a>
               {%endif%}
           </div>
         </div>

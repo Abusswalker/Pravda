@@ -4,6 +4,38 @@
 <img src="/static/img/{{article.image}}">
 <h1>{{article.title}}</h1>
 <p>{{article.content}}</p>
-<p>{{creator.username}}</p>
+<p>Автор: {{creator.username}}</p>
+
+{% if current_user.is_authenticated %}
+    <form action="" method="post" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        {{ form.csrf_token }}
+        <p>
+            {{ form.text.label }}<br>
+            {{ form.text(class="form-control") }}<br>
+            {% for error in form.text.errors %}
+                <p class="alert alert-danger" role="alert">
+                    {{ error }}
+                </p>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+    </form>
+{% endif %}
+
+
+<h3>Коментарии</h3>
+<div class="list-group">
+{% for comment in comments %}
+
+    <a class="list-group-item list-group-item-action">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">{{ comment.comment_creator }}</h5>
+      <small>{{comment.created_date}}</small>
+    </div>
+    <p class="mb-1">{{comment.content}}</p>
+    </a>
+{% endfor %}
+</div>
 
 {% endblock %}

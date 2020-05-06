@@ -1,6 +1,7 @@
 from flask_restful import reqparse
 
 
+# Парсер для API
 parser_article = reqparse.RequestParser()
 parser_article.add_argument('creator', required=True, type=int)
 parser_article.add_argument('title', required=True)

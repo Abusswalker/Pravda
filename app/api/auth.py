@@ -7,6 +7,7 @@ basic_auth = HTTPBasicAuth()
 token_auth = HTTPTokenAuth()
 
 
+# авторизация в API
 @basic_auth.verify_password
 def verify_password(username, password):
     user = User.query.filter_by(username=username).first()
@@ -21,6 +22,7 @@ def basic_auth_error():
     return error_response(401)
 
 
+# Подтверждение токена для авторизации в API
 @token_auth.verify_token
 def verify_token(token):
     g.current_user = User.check_token(token) if token else None

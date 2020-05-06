@@ -2,8 +2,8 @@ from flask import render_template, abort, redirect, request, current_app
 from flask_login import current_user, login_required
 from werkzeug.utils import secure_filename
 from app import db
-from app.main.forms import NewsForm, MyProfile, GetPrivelegy
-from app.models import User, Articles
+from app.main.forms import NewsForm, MyProfile, GetPrivelegy, CommentsCreateForm
+from app.models import User, Articles, Comment
 from app.main import bp
 
 
@@ -21,25 +21,11 @@ def games():
     return render_template("games_form.html", articles=article)
 
 
-@bp.route('/games/<int:id>', methods=['GET', 'POST'])
-def games_news(id):
-    article = db.session.query(Articles).filter(Articles.id == id).first()
-    creator = db.session.query(User).filter(User.id == article.creator).first()
-    return render_template("news_template.html", article=article, creator=creator)
-
-
 # movies
 @bp.route('/movies')
 def movies():
     article = db.session.query(Articles).filter(Articles.category == 2)[::-1]
     return render_template("movies_form.html", articles=article)
-
-
-@bp.route('/movies/<int:id>', methods=['GET', 'POST'])
-def movies_news(id):
-    article = db.session.query(Articles).filter(Articles.id == id).first()
-    creator = db.session.query(User).filter(User.id == article.creator).first()
-    return render_template("news_template.html", article=article, creator=creator)
 
 
 # series
@@ -49,13 +35,6 @@ def series():
     return render_template("series_form.html", articles=article)
 
 
-@bp.route('/series/<int:id>', methods=['GET', 'POST'])
-def series_news(id):
-    article = db.session.query(Articles).filter(Articles.id == id).first()
-    creator = db.session.query(User).filter(User.id == article.creator).first()
-    return render_template("news_template.html", article=article, creator=creator)
-
-
 # books
 @bp.route('/books')
 def books():
@@ -63,11 +42,23 @@ def books():
     return render_template("books_form.html", articles=article)
 
 
-@bp.route('/books/<int:id>', methods=['GET', 'POST'])
-def books_news(id):
+@bp.route('/article/<int:id>', methods=['GET', 'POST'])
+def article(id):
+    comment_form = CommentsCreateForm()
     article = db.session.query(Articles).filter(Articles.id == id).first()
     creator = db.session.query(User).filter(User.id == article.creator).first()
-    return render_template("news_template.html", article=article, creator=creator)
+    comments = db.session.query(Comment).filter(Comment.article_id == id).all()  # список кометариев
+    if comment_form.validate_on_submit():
+        comment = Comment()
+        comment.comment_creator = current_user.id
+        comment.article_id = id
+        comment.content = comment_form.text.data
+
+        current_user.comment.append(comment)
+        db.session.commit()
+        return render_template("news_template.html", article=article, creator=creator, comments=comments,
+                               form=comment_form)
+    return render_template("news_template.html", article=article, creator=creator, comments=comments, form=comment_form)
 
 
 @bp.route("/create_news", methods=['GET', 'POST'])
@@ -81,6 +72,8 @@ def create_news():
             article.heading = form.heading.data
             article.content = form.content.data
             article.category = form.category.data[0]
+            article.likes = 0
+            article.dislikes = 0
 
             if request.files["file"]:
                 file = request.files["file"]
@@ -102,7 +95,7 @@ def create_news():
 @login_required
 def my_news():
     article = db.session.query(Articles).filter(Articles.creator == current_user.id)
-    return render_template("my_news.html", articles=article)
+    return render_template("my_news.html", title='Мои новости', articles=article)
 
 
 @bp.route('/news_delete/<int:id>', methods=['GET', 'POST'])
@@ -138,6 +131,7 @@ def edit_news(id):
             article.title = form.title.data
             article.heading = form.heading.data
             article.content = form.content.data
+            article.content += " (статья изменена)"
             article.category = form.category.data
 
             file = request.files["file"]
@@ -177,6 +171,7 @@ def my_profile():
     return render_template('my_profile.html', title='мой профиль', form=form)
 
 
+# Получение возможности создать новость
 @bp.route('/get_poster', methods=['GET', 'POST'])
 @login_required
 def get_poster():
@@ -186,4 +181,6 @@ def get_poster():
             current_user.position = 1
             db.session.commit()
             return redirect("/")
+        else:
+            return render_template('get_poster.html', message="Неправильный код", form=form)
     return render_template('get_poster.html', title='Получить привелегию', form=form)

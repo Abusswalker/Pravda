@@ -18,6 +18,10 @@ def reqister():
             return render_template('registr.html', title='Регистрация',
                                    form=form,
                                    message="Такой пользователь уже есть")
+        if db.session.query(User).filter(User.username == form.username.data).first():
+            return render_template('registr.html', title='Регистрация',
+                                   form=form,
+                                   message="Такое имя уже занято")
         user = User(
             username=form.username.data,
             email=form.email.data,
@@ -38,7 +42,7 @@ def login():
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             return redirect("/")
-        return render_template('login.html',
+        return render_template('auth/login.html',
                                message="Неправильный логин или пароль",
                                form=form)
     return render_template('auth/login.html', title='Авторизация', form=form)
