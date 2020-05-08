@@ -17,6 +17,7 @@ class User(db.Model, UserMixin, SerializerMixin):
     email = db.Column(db.String, index=True, unique=True, nullable=True)
     hashed_password = db.Column(db.String, nullable=True)
     created_date = db.Column(db.DateTime, default=datetime.now)
+    image = db.Column(db.String, nullable=True)
     # токены для подтверждения ауентификации в API
     token = db.Column(db.String(32), index=True, unique=True)
     token_expiration = db.Column(db.DateTime)
@@ -66,8 +67,8 @@ class Articles(db.Model, UserMixin, SerializerMixin):
     __tablename__ = 'articles'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     creator = db.Column(db.Integer, db.ForeignKey("users.id"))
-    title = db.Column(db.String, nullable=True)
-    heading = db.Column(db.String, nullable=True)
+    title = db.Column(db.String, nullable=True)  # название новости
+    heading = db.Column(db.String, nullable=True)   # краткое описание новости
     content = db.Column(db.String, nullable=True)
     image = db.Column(db.String, nullable=True)
     category = db.Column(db.Integer, nullable=True)

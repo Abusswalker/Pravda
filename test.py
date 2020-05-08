@@ -1,3 +1,3 @@
-from requests import get, delete, post, put
+import os
 
-print(get("http://127.0.0.1:5000/api/users/1"))
+print(os.path.abspath(os.path.dirname(__file__)))

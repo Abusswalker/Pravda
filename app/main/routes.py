@@ -18,28 +18,28 @@ def index():
 @bp.route('/games')
 def games():
     article = db.session.query(Articles).filter(Articles.category == 1)[::-1]
-    return render_template("games_form.html", articles=article)
+    return render_template("forms/games_form.html", articles=article)
 
 
 # movies
 @bp.route('/movies')
 def movies():
     article = db.session.query(Articles).filter(Articles.category == 2)[::-1]
-    return render_template("movies_form.html", articles=article)
+    return render_template("forms/movies_form.html", articles=article)
 
 
 # series
 @bp.route('/series')
 def series():
     article = db.session.query(Articles).filter(Articles.category == 3)[::-1]
-    return render_template("series_form.html", articles=article)
+    return render_template("forms/series_form.html", articles=article)
 
 
 # books
 @bp.route('/books')
 def books():
     article = db.session.query(Articles).filter(Articles.category == 4)[::-1]
-    return render_template("books_form.html", articles=article)
+    return render_template("forms/books_form.html", articles=article)
 
 
 @bp.route('/article/<int:id>', methods=['GET', 'POST'])
@@ -168,7 +168,7 @@ def my_profile():
         user.email = form.email.data
         db.session.commit()
         return redirect("/")
-    return render_template('my_profile.html', title='мой профиль', form=form)
+    return render_template('my_profile.html', title='мой профиль', form=form, user=user)
 
 
 # Получение возможности создать новость
@@ -184,3 +184,8 @@ def get_poster():
         else:
             return render_template('get_poster.html', message="Неправильный код", form=form)
     return render_template('get_poster.html', title='Получить привелегию', form=form)
+
+
+@bp.route('/user/<int:id>', methods=['GET', 'POST'])
+def curent_user_profile(id):
+    pass

@@ -5,6 +5,7 @@
 <form action="" method="post" enctype="multipart/form-data">
   {{ form.hidden_tag() }}
   {{ form.csrf_token }}
+  <img src="static/img/{{user.image}}">
   <p>
       {{ form.username.label }}<br>
       {{ form.username(class="form-control") }}<br>

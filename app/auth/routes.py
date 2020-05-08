@@ -1,5 +1,7 @@
-from flask import render_template, redirect
-from flask_login import login_user, logout_user, login_required
+from flask import render_template, redirect, request, current_app
+from flask_login import login_user, logout_user, login_required, current_user
+from werkzeug.utils import secure_filename
+
 from app import db
 from app.auth.forms import LoginForm, RegisterForm
 from app.models import User
@@ -27,6 +29,16 @@ def reqister():
             email=form.email.data,
             position=0
         )
+
+        if request.files["file"]:
+            file = request.files["file"]
+            user.image = form.username.data + secure_filename(file.filename)
+            f = open(current_app.config['UPLOAD_FOLDER'] + form.username.data + file.filename, 'wb')
+            f.write(file.read())
+            f.close()
+        else:
+            user.image = "no_user_foto.png"
+
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()

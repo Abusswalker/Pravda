@@ -2,7 +2,7 @@
 
 {% block content %}
 <h1>Регистрация</h1>
-<form action="" method="post">
+<form action="" method="post" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
     {{ form.csrf_token }}
     <p>
@@ -44,7 +44,11 @@
             </p>
         {% endfor %}
     </p>
-    <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+    <p>
+        <label for="photo">Выберите файл</label>
+        <input type="file" class="form-control-file" id="photo" name="file">
+    </p>
+    <button type="submit" class="btn btn-primary">Зарегестрироваться</button>
     {{message}}
 </form>
 {% endblock %}
