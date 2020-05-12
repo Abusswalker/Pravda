@@ -5,8 +5,8 @@
 <div class="jumbotron" style="background-image: url('static/img/orig.png');
     background-size: cover;
     height: 510px;">
-  <h1 class="display-4">Привет, Лицеисту!</h1>
-  <p class="lead">Вы попали на мой итоговый проект. Надеюсь вам понравится ;)</p>
+  <h1 class="display-4">Привет новоприбывшим!</h1>
+  <p class="lead">Вы попали на мой итоговый проект. Надеюсь, вам понравится ;)</p>
 </div>
 
 <h1>Последние новости</h1>
@@ -18,13 +18,13 @@
               <h5 class="card-title">{{item.title}}</h5>
               <p class="card-text">{{item.heading}}</p>
               {% if item.category == 1 %}
-                    <a href="/article/{{item.id}}" class="btn btn-primary">Переход куда-нибудь</a>
+                    <a href="/article/{{item.id}}" class="btn btn-primary">Интересненько</a>
               {% elif item.category == 2 %}
-                    <a href="/article/{{item.id}}" class="btn btn-success">Переход куда-нибудь</a>
+                    <a href="/article/{{item.id}}" class="btn btn-success">Интересненько</a>
               {% elif item.category == 3 %}
-                    <a href="/article/{{item.id}}" class="btn btn-warning">Переход куда-нибудь</a>
+                    <a href="/article/{{item.id}}" class="btn btn-warning">Интересненько</a>
               {% elif item.category == 4 %}
-                    <a href="/article/{{item.id}}" class="btn btn-danger">Переход куда-нибудь</a>
+                    <a href="/article/{{item.id}}" class="btn btn-danger">Интересненько</a>
               {%endif%}
           </div>
         </div>

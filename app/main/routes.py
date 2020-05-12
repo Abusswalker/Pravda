@@ -177,7 +177,7 @@ def my_profile():
 def get_poster():
     form = GetPrivelegy()
     if form.validate_on_submit():
-        if form.text.data == "Супер-пупер_секрeтный_код":
+        if form.text.data == "Супер-пупер_секретный_код":
             current_user.position = 1
             db.session.commit()
             return redirect("/")
