@@ -9,11 +9,11 @@ class NewsForm(FlaskForm):
     content = TextAreaField("Содержание", validators=[DataRequired()])
     category = RadioField("Выберите категорию",
                           choices=[
-                                    ('1', "Games"),
-                                    ('2', "Movies"),
-                                    ('3', "Series"),
-                                    ('4', "Books"),
-                                    ],
+                              ('1', "Games"),
+                              ('2', "Movies"),
+                              ('3', "Series"),
+                              ('4', "Books"),
+                          ],
                           default='1',
                           validators=[DataRequired()])
     file = FileField()
